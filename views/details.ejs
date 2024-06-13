@@ -23,6 +23,7 @@
     <script>
         const trashCan=document.querySelector('.delete');
         console.log(trashCan.dataset.doc);
+        let a=0;
         trashCan.addEventListener('click',(e)=>{
             const endPoint=`/bdays/${trashCan.dataset.doc}`;
             fetch(endPoint,{
@@ -37,8 +38,9 @@
             })
         })
         const editBtn=document.querySelector('.editBtn');
-        const editDiv=document.querySelector('.edit')
+        const editDiv=document.querySelector('.edit');
         editBtn.addEventListener('click',(e)=>{
+            if(!a){
             editDiv.innerHTML+=`
            <h3> <label for="name" class='firstlabel'>Friend's Name:</label> </h3>
             <input type="text" name="name" id="name" class="Name" value=<%=bdays.name%> disabled='disabled'>
@@ -46,6 +48,7 @@
             <input type="date" name="bday" class="bday" id="bday" required>
             <button class="submitBtn">Submit</button>  
             `
+        a=1;}
             submitBtn=document.querySelector('.submitBtn');
             submitBtn.addEventListener('click',(e)=>{
             bdayDateDc=document.querySelector('#bday').value;
