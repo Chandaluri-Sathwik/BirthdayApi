@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('./partials/head.ejs')%>
+<body>
+    <%- include('./partials/header.ejs')%>
+    <%const allMonths=["January","February","March","April","May","June","July","August","September","October","November","December"];%>
+    <main>
+        <div class="reminderEvents"></div>
+        <h3 class="eventHeading">Upcoming Birthdays!!</h3>
+        <div class="events">
+            <% if(bdays.length>0){%>
+            <% let i=0;%>
+           <%bdays.forEach((bday)=>{
+            if(bday.diff-(date+month*30)+((bday.bdayMonth<month ) ?365:0) >=0 && bday.diff-(date+month*30)+((bday.bdayMonth<month ) ?365:0)<=30){%>
+                
+                <div class="event">
+                    <a href="/<%=bday._id %>">
+                <h3><%=bday.name%></h3>
+                <p>Get ready for <%=bday.name%>'s <%=year-bday.bdayYear%>th Birthday on <%=bday.bdayDate%><%=allMonths[bday.bdayMonth-1]%>!!</p>
+            </a>    
+            </div>
+            
+                <% i+=1;
+            }%>
+          <% })%>
+          <%if(i==0){
+            let k=0;
+            for( let j=0;j<bdays.length ; j+=1 ){
+                if(bdays[j].diff-(date+month*30)>0){%>
+                    <div class="event">
+                        <a href="/<%=bdays[j]._id %>">
+                    <h3><%=bdays[j].name%></h3>
+                    <p>Get ready for <%=bdays[j].name%>'s <%=year-bdays[j].bdayYear%>th Birthday on <%=bdays[j].bdayDate%><%=allMonths[bdays[j].bdayMonth-1]%>!!</p>
+                </a>
+                </div>
+               
+                   <%    k=1;
+                   break;
+                }
+            }
+            if(!k){%>
+                <div class="event">
+                    <a href="/<%=bdays[0]._id %>">
+                <h3><%=bdays[0].name%></h3>
+                <p>Get ready for <%=bdays[0].name%>'s <%=year-bdays[0].bdayYear%>th Birthday on <%=bdays[0].bdayDate%><%=allMonths[bdays[0].bdayMonth-1]%>!!></p>
+            </a>    
+            </div>
+         <%}
+          }}else{%>
+            <div class="start-exploring">
+            <i class="fa-solid fa-film fa-6x"></i><br>
+            <span>No birthdays to display!!</span>
+        </div>
+         <% }%>
+
+        </div>
+    </div>
+    </main>
+    <footer>
+       <p> CopyRight &copy; Sathwik 2024</p>
+    </footer>
+    <script>
+        const input=document.querySelector('#Input');
+        const searchBtn=document.querySelector('.search-icon');
+        searchBtn.addEventListener('click',(e)=>{
+            searchInput=input.value.trim();
+            window.location.href=`/bday/${searchInput}`;
+            
+        })
+        input.addEventListener("keydown", function(event) {
+             if (event.keyCode === 13) {
+             event.preventDefault();
+             searchBtn.click();
+             }
+        });
+    </script>
+</body>
+</html>

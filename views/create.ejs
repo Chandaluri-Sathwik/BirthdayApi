@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('./partials/head.ejs')%>
+<body>
+    <%- include('./partials/header.ejs')%>
+    <main>
+        <div class="create-blog">
+        <form action="/add-bday" method="post">   
+            <label for="name">Friend's Name:</label>
+            <input type="text" name="name" id="name" placeholder="Add a Friend's name..." required>
+            <label for="bday">Birthday Date:</label>
+            <input type="date" name="bday" id="bday" required>
+            <button>Submit</button>
+        </form>
+    </div>
+    </main>
+    <footer>
+        CopyRight &copy; Sathwik 2024
+    </footer>
+    <script>
+        const today=new Date();
+        document.querySelector('#bday').max=`${today.getFullYear()}-${(today.getMonth()+1<10?"0":"")+(today.getMonth()+1)}-${(today.getDate()<10?"0":"")+today.getDate()}`;
+        
+        const input=document.querySelector('#Input');
+        const searchBtn=document.querySelector('.search-icon');
+        searchBtn.addEventListener('click',(e)=>{
+            searchInput=input.value.trim();
+            window.location.href=`/bday/${searchInput}`;
+            
+        })
+        input.addEventListener("keydown", function(event) {
+             if (event.keyCode === 13) {
+             event.preventDefault();
+             searchBtn.click();
+             }
+        });
+    </script>
+</body>
+</html>
