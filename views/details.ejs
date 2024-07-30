@@ -1,85 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('./partials/head.ejs')%>
-<body>
-    <%- include('./partials/header.ejs')%>
-    <%const allMonths=["January","February","March","April","May","June","July","August","September","October","November","December"];%>
+  <%- include('./partials/head.ejs')%>
+
+  <body>
+    <%- include('./partials/header.ejs')%> <%const
+    allMonths=["January","February","March","April","May","June","July","August","September","October","November","December"];%>
     <main class="eventBox">
-        <div class="eventDetails">
-       <div class="detailsBox">
-       <div class="bdayDetails">
-        <h3> <%=bdays.name%>'s Birthday</h3>
-        <p> <%=bdays.bdayDate%> <%=allMonths[bdays.bdayMonth-1]%> <%=bdays.bdayYear%> </p></div>
-        <div class="editAndDelete">
-        <a data-id="<%= bdays._id%>" class="editBtn"><i class="fas fa-edit"></i></a>
-        <a data-doc="<%= bdays._id%>" class="delete"><i class="fa fa-trash" aria-hidden="true"></i></a></div>
+      <div class="eventDetails">
+
+
+        <div class="detailsBox">
+          <div class="bdayDetails">
+            <h3><%=bdays.name%>'s Birthday</h3>
+            <p>
+              <%=bdays.bdayDate%> <%=allMonths[bdays.bdayMonth-1]%>
+              <%=bdays.bdayYear%>
+            </p>
+          </div>
+          <div class="editAndDelete">
+            <a data-id="<%= bdays._id%>" class="editBtn"
+              ><i class="fas fa-edit"></i
+            ></a>
+            <a data-doc="<%= bdays._id%>" class="delete"
+              ><i class="fa fa-trash" aria-hidden="true"></i
+            ></a>
+          </div>
         </div>
         <div class="edit"></div>
-</div>
+      </div>
     </main>
-    <footer>
-        CopyRight &copy; Sathwik 2024
-    </footer>
+    <footer>CopyRight &copy; Sathwik 2024</footer>
     <script>
-        const trashCan=document.querySelector('.delete');
-        console.log(trashCan.dataset.doc);
-        let a=0;
-        trashCan.addEventListener('click',(e)=>{
-            const endPoint=`/bdays/${trashCan.dataset.doc}`;
-            fetch(endPoint,{
-                method:'DELETE'
-            }).then(response=>{
-                response.json()
-                .then(data=>{
-                  window.location.href=data.redirect;
-                })
-            }).catch(err=>{
-                console.log(err);
-            })
+      const trashCan = document.querySelector(".delete");
+      console.log(trashCan.dataset.doc);
+      let a = 0;
+      trashCan.addEventListener("click", (e) => {
+        const endPoint = `/bdays/${trashCan.dataset.doc}`;
+        fetch(endPoint, {
+          method: "DELETE",
         })
-        const editBtn=document.querySelector('.editBtn');
-        const editDiv=document.querySelector('.edit');
-        editBtn.addEventListener('click',(e)=>{
-            if(!a){
-            editDiv.innerHTML+=`
+          .then((response) => {
+            response.json().then((data) => {
+              window.location.href = data.redirect;
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      });
+      const editBtn = document.querySelector(".editBtn");
+      const editDiv = document.querySelector(".edit");
+      editBtn.addEventListener("click", (e) => {
+        if (!a) {
+          editDiv.innerHTML += `
            <h3> <label for="name" class='firstlabel'>Friend's Name:</label> </h3>
             <input type="text" name="name" id="name" class="Name" value=<%=bdays.name%> disabled='disabled'>
            <h3> <label for="bday">Birthday Date:</label></h3>
             <input type="date" name="bday" class="bday" id="bday" required>
             <button class="submitBtn">Submit</button>  
-            `
-        a=1;}
-            submitBtn=document.querySelector('.submitBtn');
-            submitBtn.addEventListener('click',(e)=>{
-            bdayDateDc=document.querySelector('#bday').value;
-            console.log(bdayDateDc);
+            `;
+          a = 1;
+        }
+        submitBtn = document.querySelector(".submitBtn");
+        submitBtn.addEventListener("click", (e) => {
+          bdayDateDc = document.querySelector("#bday").value;
+          console.log(bdayDateDc);
 
-            let url=`/bdays/${trashCan.dataset.doc}/${bdayDateDc}/<%=bdays.name%>`;
+          let url = `/bdays/${trashCan.dataset.doc}/${bdayDateDc}/<%=bdays.name%>`;
 
-            fetch(url,{
-                method:'PUT',
-            }).then(response=>{
-                response.json().then(data=>{
-                    window.location.href=data.redirect;
-                })
-            })
-
-            })
-        })
-
-        const input=document.querySelector('#Input');
-        const searchBtn=document.querySelector('.search-icon');
-        searchBtn.addEventListener('click',(e)=>{
-            searchInput=input.value.trim();
-            window.location.href=`/bday/${searchInput}`;
-            
-        })
-        input.addEventListener("keydown", function(event) {
-             if (event.keyCode === 13) {
-             event.preventDefault();
-             searchBtn.click();
-             }
+          fetch(url, {
+            method: "PUT",
+          }).then((response) => {
+            response.json().then((data) => {
+              window.location.href = data.redirect;
+            });
+          });
         });
+      });
+
+      const input = document.querySelector("#Input");
+      const searchBtn = document.querySelector(".search-icon");
+      searchBtn.addEventListener("click", (e) => {
+        searchInput = input.value.trim();
+        window.location.href = `/bday/${searchInput}`;
+      });
+      input.addEventListener("keydown", function (event) {
+        if (event.keyCode === 13) {
+          event.preventDefault();
+          searchBtn.click();
+        }
+      });
     </script>
-</body>
+  </body>
 </html>
